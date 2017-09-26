@@ -9,3 +9,4 @@ doc/
 data/
 log/log.txt
 ckpt/
+*.pyc
