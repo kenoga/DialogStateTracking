@@ -8,6 +8,7 @@ import modules.util as util
 
 import numpy as np
 import sys
+import argparse
 
 
 class Trainer():
@@ -33,11 +34,10 @@ class Trainer():
                        nb_hidden=nb_hidden)
 
 
-    def train(self):
+    def train(self, epoch_num=20):
 
         print('\n:: training started\n')
-        epochs = 20
-        for j in range(epochs):
+        for j in range(epoch_num):
             # iterate through dialogs
             num_tr_examples = len(self.dialog_indices_tr)
             loss = 0.
@@ -57,7 +57,9 @@ class Trainer():
             if accuracy > 0.99:
                 self.net.save()
                 break
-
+        self.net.save()
+        
+        
     def dialog_train(self, dialog):
         # create entity tracker
         et = EntityTracker()
@@ -128,7 +130,10 @@ class Trainer():
 
 
 if __name__ == '__main__':
+    ap = argparse.ArgumentParser()
+    ap.add_argument("epoch", type=int)
+    args = ap.parse_args()
     # setup trainer
     trainer = Trainer()
     # start training
-    trainer.train()
+    trainer.train(epoch_num=args.epoch)
